@@ -4,10 +4,10 @@ import { ProductArt } from "./ProductArt";
 const FOCUS = {
   water: "center 18%",
   milo: "center 80%",
-  palm: "center 64%",
+  palm: "center 78%",
   morningfresh: "70% center",
   chinchin: "center 38%",
-  garri: "center 58%",
+  garri: "center 72%",
   maggi: "center 50%",
   dettol: "center 72%",
   fivealive: "center 46%",

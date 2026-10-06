@@ -36,3 +36,7 @@ export function persistGoogleUser(credential) {
 export function placeOrder(payload) {
   return callFunction("place-order", payload);
 }
+
+export function cartAction(payload) {
+  return callFunction("cart", payload);
+}

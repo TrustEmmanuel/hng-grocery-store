@@ -36,7 +36,7 @@ export function Checkout() {
   useTitle("Checkout");
   const navigate = useNavigate();
   const { user, openSignIn } = useAuth();
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal, clear, isLoading, error: cartError } = useCart();
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
@@ -76,13 +76,21 @@ export function Checkout() {
       });
       const order = result.order;
       sessionStorage.setItem(`tajmart.order.${order.id}`, JSON.stringify({ ...result, order }));
-      clear();
+      await clear();
       navigate(`/order/${order.id}`);
     } catch (error) {
       setSubmitError(error.message || "Could not place the order.");
     } finally {
       setSubmitting(false);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="wrap">
+        <p className="muted">Loading the basket…</p>
+      </div>
+    );
   }
 
   if (items.length === 0) {
@@ -111,7 +119,7 @@ export function Checkout() {
         <div className="gate">
           <div>
             <h2>Sign in to place the order</h2>
-            <p>Guests can fill a basket. Checkout needs a Google account so the receipt has somewhere to go.</p>
+            <p>Sign in with Google so this basket is saved to your account and the receipt has somewhere to go.</p>
           </div>
           <button type="button" className="btn" onClick={openSignIn}>
             Sign in with Google
@@ -176,6 +184,7 @@ export function Checkout() {
             />
           </Field>
           <p className="muted">Payment is transfer or cash when the bag arrives. We don’t take card details here.</p>
+          {cartError && <p className="form-error">{cartError}</p>}
           {submitError && <p className="form-error">{submitError}</p>}
           <button type="submit" className="btn" disabled={submitting || !user}>
             {submitting ? "Placing order…" : user ? `Place order · ${formatNaira(total)}` : "Sign in to place order"}

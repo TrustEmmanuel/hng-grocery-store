@@ -29,11 +29,7 @@ function hoursLabel(date = new Date()) {
 function Brand() {
   return (
     <Link to="/" className="brand">
-      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-        <rect width="22" height="22" rx="6" fill="currentColor" />
-        <path d="M6.2 15.6V6.6h2.05l2.75 4.9 2.75-4.9h2.05v9h-1.7V9.4l-2.15 3.7h-1.9L8 9.4v6.2H6.2z" fill="#F3EEE6" />
-      </svg>
-      <span>TajMart</span>
+      TajMart
     </Link>
   );
 }

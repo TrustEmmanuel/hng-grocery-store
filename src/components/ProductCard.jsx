@@ -9,10 +9,12 @@ export function ProductCard({ product }) {
   const [label, setLabel] = useState("Add");
   const soldOut = product.stock_quantity <= 0;
 
-  function onAdd(event) {
+  async function onAdd(event) {
     event.preventDefault();
-    const added = addItem(product, 1);
-    setLabel(added ? "Added" : "Max");
+    const added = await addItem(product, 1);
+    if (added === true) setLabel("Added");
+    else if (added === false) setLabel("Max");
+    else if (added == null) setLabel("Retry");
     window.setTimeout(() => setLabel("Add"), 900);
   }
 

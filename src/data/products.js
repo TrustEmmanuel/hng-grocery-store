@@ -124,14 +124,14 @@ export const seedProducts = [
 ];
 
 export const featuredNames = [
-  "Garri Ijebu 5kg",
   "Indomie Chicken 70g",
-  "Peak Milk 400g",
   "Coca-Cola 50cl",
   "Agege Bread",
-  "Palm Oil 75cl",
   "Maggi Star Cubes",
   "Semovita 2kg",
+  "Golden Penny Rice 5kg",
+  "Garri Ijebu 5kg",
+  "Palm Oil 75cl",
 ];
 
 const keywordArts = [

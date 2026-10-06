@@ -1,6 +1,6 @@
 -- TajMart schema. Run this in the Supabase SQL editor.
 -- The browser uses the anon key and can only read products.
--- Users and orders are written by Edge Functions with the service role.
+-- Users, orders, and cart_items are written by Edge Functions with the service role.
 
 create extension if not exists pgcrypto;
 
@@ -36,12 +36,26 @@ create table if not exists orders (
 comment on column orders.items is 'Array of {id, name, price, quantity}. Price is in naira.';
 comment on column orders.total is 'Grand total in naira, including delivery.';
 
+create table if not exists cart_items (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references users (id) on delete cascade,
+  product_id uuid not null references products (id) on delete cascade,
+  quantity integer not null check (quantity > 0 and quantity <= 12),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, product_id)
+);
+
+comment on table cart_items is 'Shared basket for one Google user. Written only by the cart Edge Function.';
+
 create index if not exists products_category_idx on products (category);
 create index if not exists orders_user_id_idx on orders (user_id);
+create index if not exists cart_items_user_id_idx on cart_items (user_id);
 
 alter table products enable row level security;
 alter table users enable row level security;
 alter table orders enable row level security;
+alter table cart_items enable row level security;
 
 drop policy if exists "Public can read products" on products;
 create policy "Public can read products"

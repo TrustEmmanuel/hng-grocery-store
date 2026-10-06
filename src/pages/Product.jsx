@@ -48,9 +48,12 @@ export function Product() {
   const category = categories.find((item) => item.name === product.category);
   const related = products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 4);
 
-  function onAdd() {
-    const added = addItem(product, qty);
-    setNotice(added ? "Added to the basket." : "That’s as many as we can pack.");
+  async function onAdd() {
+    const added = await addItem(product, qty);
+    if (added === true) setNotice("Added to the basket.");
+    else if (added === false) setNotice("That’s as many as we can pack.");
+    else if (added == null) setNotice("Could not update the basket.");
+    else setNotice("");
   }
 
   return (
